@@ -1,0 +1,232 @@
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #0c0f1f;
+  color: #ffffff;
+  line-height: 1.6;
+  padding-top: 80px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: #090c1a;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.navbar .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #dbdaea;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  margin-left: auto;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: #e0e0e0;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.nav-links li a:hover {
+  color: #a099ff;
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  padding: 100px 20px 60px;
+  background: radial-gradient(circle at top, #0e1228, #0c0f1f);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #dbdaea;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: #cccccc;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.btn-primary,
+.btn-computation {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  text-decoration: none;
+  color: white;
+  background-color: #1f4068;
+}
+
+.btn-primary:hover,
+.btn-computation:hover {
+  background-color: #a099ff;
+  color: #000000;
+  transform: translateY(-2px);
+}
+
+/* Features */
+.features {
+  padding: 80px 20px;
+  text-align: center;
+  background: #11162c;
+}
+
+.features h2 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #dbdaea;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.feature {
+  background-color: #1c223e;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 0 12px rgba(0, 255, 231, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 20px rgba(0, 255, 231, 0.4);
+}
+
+.feature h3 {
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+  color: #a099ff;
+}
+
+.feature p {
+  font-size: 1.1rem;
+  color: #cccccc;
+}
+
+/* Usecases */
+.usecases {
+  padding: 80px 20px;
+  background: #0b101f;
+  text-align: center;
+  color: white;
+}
+
+.usecases h2 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #dbdaea;
+}
+
+.usecase-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.usecase {
+  background-color: #1a1f35;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 0 12px rgba(0, 255, 231, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.usecase:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 20px rgba(0, 255, 231, 0.4);
+}
+
+.usecase h3 {
+  font-size: 1.6rem;
+  color: #a099ff;
+  margin-bottom: 10px;
+}
+
+.usecase p {
+  font-size: 1.1rem;
+  color: #f0f0f0;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #090c1a;
+  font-size: 0.9rem;
+  color: #bbbbbb;
+}
+
+/* Lottie player styling */
+lottie-player {
+  width: 320px;
+  height: 320px;
+  margin: auto;
+  display: block;
+  filter: drop-shadow(0 0 10px #dbdaea);
+}
+
+/* Subtle Button Glow on Hover */
+.cta-buttons a:hover {
+  box-shadow: 0 0 15px rgba(160, 153, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+/* Zoom effect on card hover */
+.feature:hover,
+.usecase:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+/* Section fade-in effect (if not using ScrollReveal) */
+.features, .usecases {
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}

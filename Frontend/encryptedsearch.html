@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Encrypted Search | SEAL Privacy Tech</title>
+  <link rel="stylesheet" href="styles/search.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lottie-web@latest/build/player/lottie.min.js"></script>
+  <style>
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.7); z-index: 999;
+      display: flex; justify-content: center; align-items: center;
+    }
+
+    .file-modal {
+      background-color: #111b32;
+      color: white;
+      padding: 2rem;
+      border-radius: 12px;
+      max-width: 700px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 0 15px rgba(0,255,255,0.15);
+    }
+
+    .file-modal h3 {
+      margin-bottom: 1rem;
+    }
+
+    .file-card {
+      background: #1e2a48;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .file-card pre {
+      background: #0a1128;
+      padding: 0.75rem;
+      border-radius: 6px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: #f44;
+      border: none;
+      color: white;
+      font-weight: bold;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+    }
+
+    .btn-download {
+      margin-top: 10px;
+      display: inline-block;
+      color: #fff;
+      background-color: #007bff;
+      padding: 6px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+
+    .btn-download:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">Seal Tech</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="encryptedsearch.html" class="active">Encrypted Search</a></li>
+      <li><a href="encryptedcomputation.html">Encrypted Computation</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-container">
+      <div class="hero-text">
+        <h1>Encrypted Search</h1>
+        <p>Perform secure, private keyword searches without ever revealing your data. Powered by SEAL Privacy Tech.</p>
+        <div class="cta-buttons">
+          <a href="#files" class="btn" id="viewFilesBtn">📂 View Available Files</a>
+        </div>
+      </div>
+      <div class="hero-animation">
+        <div id="animation-gear" style="width: 380px; height: 380px;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- File Viewer Modal -->
+  <div id="fileModalContainer" style="display: none;"></div>
+
+  <!-- Query Type -->
+  <section class="query-selection" id="files">
+    <h2>Select Query Type</h2>
+    <div class="query-buttons">
+      <a href="conjunctive.html" class="btn">🔎 Conjunctive</a>
+      <a href="disjunctive.html" class="btn">🔍 Disjunctive</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" id="contact">
+    &copy; 2025 Seal Tech. All rights reserved.
+  </footer>
+
+  <!-- Scripts -->
+<script>
+  lottie.loadAnimation({
+    container: document.getElementById('animation-gear'),
+    renderer: 'svg',
+    loop: true,
+    autoplay: true,
+    path: 'https://assets10.lottiefiles.com/packages/lf20_3ntisyac.json'
+  });
+
+  const fileModalContainer = document.getElementById('fileModalContainer');
+  const viewFilesBtn = document.getElementById('viewFilesBtn');
+
+  const fileNames = [
+    "keywords_only.csv",
+    "keyword_docname_map.csv",
+    "sorted_index_test.csv",
+    "inverted_index_test.csv",
+  ];
+
+  viewFilesBtn.addEventListener('click', async () => {
+    let modalContent = `
+      <div class="modal-overlay">
+        <div class="file-modal">
+          <button class="close-btn" onclick="document.getElementById('fileModalContainer').style.display='none'">×</button>
+          <h3>📂 Encrypted Search Files</h3>
+    `;
+
+    for (const file of fileNames) {
+      try {
+        const response = await fetch(`http://127.0.0.1:5050/files/${file}`);
+        const data = await response.json();
+
+        if (data.error) throw new Error(data.error);
+
+        modalContent += `
+          <div class="file-card">
+            <strong>${data.filename}</strong>
+            <pre>${data.preview}</pre>
+            <a class="btn-download" href="http://127.0.0.1:5050/download/${data.filename}" download>⬇️ Download</a>
+          </div>
+        `;
+      } catch (error) {
+        modalContent += `
+          <div class="file-card">
+            <strong>${file}</strong>
+            <pre>Error loading preview: ${error.message}</pre>
+          </div>
+        `;
+      }
+    }
+
+    modalContent += `</div></div>`;
+    fileModalContainer.innerHTML = modalContent;
+    fileModalContainer.style.display = "block";
+  });
+</script>
+  
+</body>
+</html>

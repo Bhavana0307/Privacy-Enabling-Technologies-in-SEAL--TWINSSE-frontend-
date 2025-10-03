@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Seal Tech</title>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles/style.css" />
+
+  <!-- Lottie Web Script -->
+  <script src="https://unpkg.com/lottie-web@latest/build/player/lottie.min.js"></script>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">Seal Tech</div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#usecases">Use Cases</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <h1>Welcome to Privacy Enabling Technologies in SEAL</h1>
+    <p>Explore our advanced secure computation and encrypted search technologies.</p>
+
+    <!-- Lottie animation container -->
+    <div id="animation-gear" style="width: 300px; height: 300px; margin: 0 auto;"></div>
+
+    <div class="cta-buttons">
+      <a href="encryptedsearch.html" class="btn-primary">Encrypted Search</a>
+      <a href="encryptedcomputation.html" class="btn-computation">Encrypted Computation</a>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features" id="features">
+    <h2>Features</h2>
+    <div class="feature-grid">
+      <div class="feature">
+        <h3>Secure Search</h3>
+        <p>Enable encrypted keyword search on data without compromising privacy.</p>
+      </div>
+      <div class="feature">
+        <h3>Encrypted Computation</h3>
+        <p>Perform computations on encrypted data using advanced cryptographic techniques.</p>
+      </div>
+      <div class="feature">
+        <h3>Data Privacy</h3>
+        <p>Maintain confidentiality and integrity of data during queries and computation.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Use Cases Section -->
+  <section class="usecases" id="usecases">
+    <h2>Use Cases</h2>
+    <div class="usecase-grid">
+      <div class="usecase">
+        <h3>Medical Data Analysis</h3>
+        <p>Securely query and analyze patient records without revealing sensitive information.</p>
+      </div>
+      <div class="usecase">
+        <h3>Encrypted Financial Audits</h3>
+        <p>Audit encrypted financial documents to ensure privacy and compliance.</p>
+      </div>
+      <div class="usecase">
+        <h3>Secure Research</h3>
+        <p>Collaborate across institutions using encrypted datasets with full data privacy.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" id="contact">
+    &copy; 2025 Seal Tech. All rights reserved.
+  </footer>
+
+  <!-- Lottie Player Script (at bottom) -->
+  <script>
+    lottie.loadAnimation({
+      container: document.getElementById('animation-gear'),
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      path: 'https://assets10.lottiefiles.com/packages/lf20_jcikwtux.json'
+    });
+  </script>
+  <!-- Scroll Reveal Animation Script -->
+<script src="https://unpkg.com/scrollreveal"></script>
+<script>
+  ScrollReveal().reveal('.feature, .usecase', {
+    origin: 'bottom',
+    distance: '30px',
+    duration: 800,
+    delay: 200,
+    reset: false
+  });
+
+  ScrollReveal().reveal('.hero h1, .hero p, .cta-buttons', {
+    origin: 'top',
+    distance: '40px',
+    duration: 1000,
+    delay: 100,
+    reset: false
+  });
+</script>
+
+</body>
+</html>

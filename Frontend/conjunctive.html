@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Conjunctive Search | Seal Tech</title>
+  <link rel="stylesheet" href="styles/search.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://unpkg.com/scrollreveal"></script>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">Seal Tech</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="encryptedsearch.html">Encrypted Search</a></li>
+      <li><a href="encryptedcomputation.html">Encrypted Computation</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="query-hero fancy-bg">
+    <div class="overlay"></div>
+    <div class="content-container">
+      <h1><i class="fas fa-lock"></i> Conjunctive Search</h1>
+      <p>Perform secure, encrypted keyword-based search with privacy-preserving technology.</p>
+
+      <!-- Setup Phase -->
+      <button class="btn glow" onclick="setupSystem()">🔧 Setup</button>
+      <div id="setupStatus" class="status-text"></div>
+
+      <!-- Search Form -->
+      <div id="searchBox" style="display:none;">
+        <input type="text" id="queryInput" placeholder="Enter space-separated keywords (e.g., market energy)" />
+        <button class="btn btn-search" id="searchButton" onclick="performSearch()">🔍 Search</button>
+      </div>
+
+      <!-- Results -->
+      <div id="resultSection" class="result-section"></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" id="contact">
+    &copy; 2025 Seal Tech. All rights reserved.
+  </footer>
+
+  <!-- Script -->
+  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+  <script>
+    const socket = io("http://127.0.0.1:5000");
+
+    const statusBox = document.getElementById('setupStatus');
+    const searchBox = document.getElementById('searchBox');
+    const resultDiv = document.getElementById('resultSection');
+
+    // 🔧 Setup
+    async function setupSystem() {
+      statusBox.innerText = "⏳ Setup in progress...";
+      fetch("http://127.0.0.1:5000/setup", { method: "POST" });
+    }
+
+    socket.on("setup_status", (data) => {
+      statusBox.innerText = data.message;
+      if (data.message.includes("✅ Setup Completed")) {
+        statusBox.classList.add("success");
+        searchBox.style.display = "block"; // enable search after setup
+      }
+    });
+
+    // 🔍 Search
+    async function performSearch() {
+      const input = document.getElementById('queryInput').value.trim();
+      resultDiv.innerHTML = '';
+
+      if (!input) {
+        resultDiv.innerHTML = '<p class="warn">Please enter some keywords.</p>';
+        return;
+      }
+
+      resultDiv.innerHTML = '<p class="status-text">🔍 Searching encrypted database...</p>';
+
+      // Send search request
+      fetch("http://127.0.0.1:5000/search", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ keywords: input })
+      });
+    }
+
+    // 🎯 Stream results as they arrive
+    socket.on("search_result", (data) => {
+      if (resultDiv.querySelector(".status-text")) {
+        resultDiv.innerHTML = "<h3>📄 Matched Documents:</h3><div class='doc-grid'></div>";
+      }
+      const grid = resultDiv.querySelector(".doc-grid");
+
+      const card = document.createElement("div");
+      card.className = "doc-card";
+      card.innerHTML = `
+        <i class="fas fa-file-alt fa-2x"></i>
+        <p>${data.filename}</p>
+        <a class="btn-download" href="http://127.0.0.1:5000/download/${data.doc_id}" download>
+          <i class="fas fa-download"></i> Download
+        </a>
+      `;
+      grid.appendChild(card);
+    });
+
+    socket.on("search_complete", (data) => {
+      if (!resultDiv.querySelector(".doc-card")) {
+        resultDiv.innerHTML = `<p class="warn">No matching documents found.</p>`;
+      }
+    });
+
+    socket.on("search_error", (data) => {
+      resultDiv.innerHTML = `<p class="warn">❌ ${data.message}</p>`;
+    });
+
+    // Allow Enter key to trigger search
+    document.getElementById("queryInput")?.addEventListener("keypress", function(event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        document.getElementById("searchButton").click();
+      }
+    });
+
+    // Animations
+    ScrollReveal().reveal('.query-hero', { delay: 200, origin: 'top', distance: '60px' });
+    ScrollReveal().reveal('.btn', { delay: 300, origin: 'bottom', distance: '30px' });
+  </script>
+
+</body>
+</html>

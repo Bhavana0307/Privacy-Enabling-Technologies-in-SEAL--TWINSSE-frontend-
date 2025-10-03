@@ -1,0 +1,20 @@
+# Ignore build artifacts
+Backend/build/
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+
+# Ignore logs
+*.log
+
+# Ignore temporary files
+*.tmp
+*.swp
+
+# Ignore dataset CSV files
+Dataset/*.csv
+Backend/middleware/*.csv
+
+# Ignore VS Code settings
+.vscode/

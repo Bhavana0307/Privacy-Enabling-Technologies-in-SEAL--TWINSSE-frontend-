@@ -1,0 +1,7 @@
+Can you work with Lee on this one.
+---------------------- Forwarded by Tracy Geaccone/GPGFIN/Enron on 02/14/2001 01:34 PM ---------------------------
+From:	David Griffiths/ENRON@enronXgate on 02/14/2001 11:12 AM
+To:	Tracy Geaccone/GPGFIN/Enron@ENRON, Mary Botello/NA/Enron@Enron
+cc:	Ben Humann/NPNG/Enron@ENRON, Mike Zabawa/ENRON@enronXgate, Je Chang/ET&S/Enron@ENRON, Nancy Wood/ET&S/Enron@ENRON
+Subject:	FAR order plan settlement rules
+I have discovered some FAR orders of ours which do not have plan settlement rules either.  It appears that a program to find and correct these would help us also.

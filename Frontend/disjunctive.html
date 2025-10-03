@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Disjunctive Search | Seal Tech</title>
+  <link rel="stylesheet" href="styles/search.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://unpkg.com/scrollreveal"></script>
+</head>
+<body>
+  <!-- -------------------- Navbar -------------------- -->
+  <nav class="navbar">
+    <div class="logo">Seal Tech</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="encryptedsearch.html">Encrypted Search</a></li>
+      <li><a href="encryptedcomputation.html">Encrypted Computation</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- -------------------- Hero Section -------------------- -->
+  <section class="query-hero fancy-bg">
+    <div class="overlay"></div>
+    <div class="content-container">
+      <h1><i class="fas fa-unlock"></i> Disjunctive Search</h1>
+      <p>Perform encrypted keyword-based search using secure SSE logic (OR-based matching).</p>
+
+      <!-- -------------------- Setup Phase -------------------- -->
+      <button class="btn glow" onclick="setupSystem()">🔧 Setup</button>
+      <div id="setupStatus" class="status-text"></div>
+
+      <!-- -------------------- Search Box (Hidden Initially) -------------------- -->
+      <div id="searchBox" style="display: none; margin-top: 20px;">
+        <input type="text" id="queryInput" placeholder="Enter space-separated keywords (e.g., energy market)" />
+        <button class="btn btn-search" id="searchButton" onclick="performSearch()">🔍 Search</button>
+      </div>
+
+      <!-- -------------------- Results Section -------------------- -->
+      <div id="resultSection" class="result-section"></div>
+    </div>
+  </section>
+
+  <!-- -------------------- Footer -------------------- -->
+  <footer class="footer" id="contact">
+    &copy; 2025 Seal Tech. All rights reserved.
+  </footer>
+
+  <!-- -------------------- Scripts -------------------- -->
+  <script>
+    // Trigger backend setup
+    async function setupSystem() {
+      const status = document.getElementById('setupStatus');
+      status.innerText = "⏳ Setting up encrypted index...";
+      try {
+        const response = await fetch('http://127.0.0.1:5001/setup', { method: 'POST' });
+        const data = await response.json();
+        if (data.status === "success") {
+          status.innerText = "✅ Setup complete. You may now search.";
+          document.getElementById('searchBox').style.display = "block";
+        } else {
+          status.innerText = "❌ Setup failed: " + data.message;
+        }
+      } catch (err) {
+        status.innerText = "❌ Error contacting server.";
+      }
+    }
+
+    // Perform keyword search (OR-based)
+    async function performSearch() {
+      const input = document.getElementById('queryInput').value.trim();
+      const resultDiv = document.getElementById('resultSection');
+      resultDiv.innerHTML = '';
+
+      if (!input) {
+        resultDiv.innerHTML = '<p class="warn">⚠️ Please enter some keywords.</p>';
+        return;
+      }
+
+      resultDiv.innerHTML = '<p class="status-text">🔍 Searching encrypted database...</p>';
+      const keywords = input.split(/\s+/);
+
+      try {
+        const response = await fetch('http://127.0.0.1:5001/search', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ keywords })
+        });
+
+        const data = await response.json();
+
+        if (data.status === "success" && data.matched_doc_ids.length > 0) {
+          const list = data.matched_doc_ids.map(docId =>
+            `<li><a class="btn-download" href="http://127.0.0.1:5001/download/${docId}.txt" download><i class="fas fa-file-download"></i> ${docId}.txt</a></li>`
+          ).join('');
+          resultDiv.innerHTML = `<h3>📄 Matched Documents:</h3><ul class="doc-list">${list}</ul>`;
+        } else {
+          resultDiv.innerHTML = `<p class="warn">❌ No matching documents found.</p>`;
+        }
+      } catch (err) {
+        resultDiv.innerHTML = '<p class="warn">❌ Failed to fetch results from server.</p>';
+      }
+    }
+
+    // Trigger search on Enter key press
+    document.addEventListener("DOMContentLoaded", function () {
+      const input = document.getElementById("queryInput");
+      input?.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          document.getElementById("searchButton").click();
+        }
+      });
+    });
+
+    // Scroll animations
+    ScrollReveal().reveal('.query-hero', { delay: 200, origin: 'top', distance: '60px' });
+    ScrollReveal().reveal('.btn', { delay: 300, origin: 'bottom', distance: '30px' });
+  </script>
+</body>
+</html>
